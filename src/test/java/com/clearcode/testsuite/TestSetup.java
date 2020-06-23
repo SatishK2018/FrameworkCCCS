@@ -25,12 +25,14 @@ public class TestSetup {
 	
 	@BeforeMethod
 	public void loadUrl() {
-		wdu.launchUrl();
+		//wdu.launchUrl();
+		wdu.navigate("http://realty-real-estatem1.upskills.in/admin");
 	}
 	
+		
 	@AfterClass
 	public void close() {
-		//wdu.exit();
+		wdu.exit();
 	}
 	
 //	@AfterSuite

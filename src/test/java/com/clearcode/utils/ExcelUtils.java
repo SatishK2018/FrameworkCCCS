@@ -241,7 +241,7 @@ public class ExcelUtils {
 		}
 		List<String> data = new ArrayList<String>();
 		Row row = sh.getRow(i);
-		for(int k=1;k<row.getPhysicalNumberOfCells();k++)
+		for(int k=1;k<=row.getPhysicalNumberOfCells();k++)
 		{
 			row.getCell(k).setCellType(CellType.STRING);
 			data.add(row.getCell(k).getStringCellValue());

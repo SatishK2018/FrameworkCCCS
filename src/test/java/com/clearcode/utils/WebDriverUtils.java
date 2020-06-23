@@ -21,6 +21,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import com.clearcode.po.AddNewUserPage;
+
 import atu.testng.reports.ATUReports;
 import atu.testng.reports.logging.LogAs;
 import atu.testng.selenium.reports.CaptureScreen;
@@ -31,7 +33,11 @@ public class WebDriverUtils {
 	
 	WebDriver driver = null;
 	WebDriverWait wait = null;
+	WebElement userTable = null;
+	List<WebElement> rows = null;
+	
 	Properties p;
+	
 		public void initialize() {
 			String b=null;
 			PropertyUtils pu = new PropertyUtils();
@@ -261,4 +267,47 @@ public class WebDriverUtils {
 	                    ScreenshotOf.DESKTOP));
 			}
 		}
+
+		public void assertUserDetails(String expected_username, String expected_email, String expected_role) {
+			userTable = driver.findElement(AddNewUserPage.userDetails_tbl).findElement(By.tagName("tbody"));
+			rows = userTable.findElements(By.tagName("tr"));
+			
+			for(int i=0; i<rows.size();i++) {
+				String actual_username = rows.get(i).findElements(By.tagName("td")).get(0).getText();
+				String actual_email = rows.get(i).findElements(By.tagName("td")).get(2).getText();
+				String actual_role = rows.get(i).findElements(By.tagName("td")).get(3).getText();
+				if(actual_username.equals(expected_username)) {
+					Assert.assertEquals(actual_email, expected_email);
+					Assert.assertEquals(actual_role, expected_role);
+				}
+			}
+		}
+		
+		public void clickUserCheckBx(String user) {
+			userTable = driver.findElement(AddNewUserPage.userDetails_tbl).findElement(By.tagName("tbody"));
+			rows = userTable.findElements(By.tagName("tr"));
+			
+			for(int i=0; i<rows.size();i++) {
+				//System.out.println(rows.get(i).getText());
+				String names = rows.get(i).findElements(By.tagName("td")).get(1).getText();
+				//System.out.println(names);
+				if(names.equalsIgnoreCase(user))
+					rows.get(i).findElement(By.tagName("th")).findElement(By.name("users[]")).click();
+			}
+		}
+		
+		public void verifyChangedRole(String user, String changeRole) {
+			userTable = driver.findElement(AddNewUserPage.userDetails_tbl).findElement(By.tagName("tbody"));
+			rows = userTable.findElements(By.tagName("tr"));
+			
+			for(int i=0; i<rows.size();i++) {
+				String names = rows.get(i).findElements(By.tagName("td")).get(1).getText();
+				if(names.equalsIgnoreCase(user)) {
+					String actual = rows.get(i).findElements(By.tagName("td")).get(3).getText();
+					Assert.assertEquals(actual, changeRole);
+			}
+		}
+	}
+		
+		
 }

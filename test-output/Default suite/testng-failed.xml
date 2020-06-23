@@ -5,10 +5,9 @@
     <classes>
       <class name="com.clearcode.testsuite.TestSuite1">
         <methods>
+          <include name="addNewUser"/>
           <include name="launch"/>
           <include name="close"/>
-          <include name="loadUrl"/>
-          <include name="searchPatient"/>
         </methods>
       </class> <!-- com.clearcode.testsuite.TestSuite1 -->
     </classes>
